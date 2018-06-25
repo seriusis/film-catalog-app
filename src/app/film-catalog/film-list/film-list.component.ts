@@ -113,7 +113,7 @@ export class FilmListComponent implements OnInit {
   }
 
   isLastPage = () => this.pageInfo.currentPage == this.pageInfo.totalPages;
-   
+    
   goLastPage(){
     this.isLoading = true;
     this.pageInfo.currentPage = this.pageInfo.totalPages;
