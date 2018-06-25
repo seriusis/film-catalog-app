@@ -1,0 +1,4 @@
+<mat-form-field>
+  <mat-label>{{searchLabelText}}</mat-label>
+  <input (input) = "searchHandler($event.target.value)"  matInput placeholder="от 3 символов" [(ngModel)] = "searchQuery">
+</mat-form-field>

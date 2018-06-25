@@ -1,0 +1,9 @@
+
+.noImage{
+    font-size: 150px;
+    color: #a7bcc5;
+    padding: 50px 0;
+}
+mat-card-content .material-icons{
+    vertical-align: middle;
+}

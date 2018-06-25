@@ -1,0 +1,12 @@
+.wrapper{
+    margin: 50px auto;
+    width: 500px;
+}
+/*
+.mat-tab-body-content{
+    margin-top:10px;
+    overflow: hidden; 
+}*/
+.mat-tab-body-content:host{
+    color:red
+}
