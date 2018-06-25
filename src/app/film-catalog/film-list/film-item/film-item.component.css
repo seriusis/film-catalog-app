@@ -1,0 +1,69 @@
+mat-card{padding-top:0}
+.film-card mat-card-content{
+  max-height:110px;
+  overflow: hidden;
+  height: 102px;
+  display: block;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+mat-card-header{
+  justify-content: center;
+}
+mat-card-header mat-card-title{
+  text-align: center;
+  margin:0 auto;
+  margin-bottom:15px;
+  font-size:19px;
+}
+
+.mat-card-image:first-child{
+  margin-top:0;
+}
+.poster{
+  position: relative;
+}
+.release{
+  position: absolute;
+  top:0;
+  left: 0;
+}
+.average{
+  position: absolute;
+  top:0;
+  right: 0;
+}
+.label .material-icons{
+  vertical-align: middle;
+  margin-right:5px;
+  color: rgb(244, 205, 54)
+}
+.label{
+  color: #fff;
+  background: #254653;
+  box-sizing: border-box;
+  padding: 3px 9px;
+  font-size: 14px;
+  margin: 0 -24px 16px -24px;
+}
+.label .material-icons.grey{
+  color:#a7bcc5;
+}
+.label .material-icons.orange{
+  color: rgb(244, 205, 54);
+}
+.label .material-icons.green{
+  color:rgb(8, 235, 39);
+}
+
+.noImage{
+  font-size: 150px;
+  color: #a7bcc5;
+  padding: 50px 0;
+}
+
+@media (max-width: 599px){
+  .label {
+    margin: 0 -16px;
+  }
+}

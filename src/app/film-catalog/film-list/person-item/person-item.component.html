@@ -1,0 +1,19 @@
+<mat-card class="person-card">
+    <div class="poster">
+        <img  *ngIf ="person.profile_path; else noImage" mat-card-image src="{{imgPath+person.profile_path}}"  alt = "{{[person].title}}" title = "{{person.title}}">
+        <ng-template #noImage>
+          <i class="material-icons noImage">person</i>
+        </ng-template>
+      </div>
+    <mat-card-header>
+        <mat-card-title>{{person.name}}</mat-card-title> 
+      </mat-card-header>
+    <mat-card-content>
+    <i class="material-icons">star</i> {{person.popularity}}
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Открыть</button>
+      <button mat-button>Редактировать</button>
+    </mat-card-actions>
+  </mat-card>
+  
