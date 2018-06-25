@@ -150,4 +150,4 @@ export class FilmListComponent implements OnInit {
   trackByFn = (index, item) => item.id;
 
 }
-       
+        
