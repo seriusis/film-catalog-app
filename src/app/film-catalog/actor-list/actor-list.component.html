@@ -1,0 +1,45 @@
+ <div class="container">
+
+    <search [labelText] = "searchText" (searchEvent) = "getPersons()" (clearEvent) = "clearRes()"></search>
+     <mat-spinner *ngIf="isLoading"></mat-spinner>
+     <div *ngIf = "items.length else noItems" class="actor-grid" [ngClass]="{'loading': isLoading}">
+         <ng-container *ngFor="let item of items; index as itemIndex; trackBy : trackByFn">
+             <person-item class="person-item" [person] = "item" [imgPath] = "imgPath"></person-item>
+         </ng-container>
+     </div>
+            
+    <ng-template #noItems>
+         Нет актеров для показа
+    </ng-template>
+     <div *ngIf="items.length" class="align-center bottom-list-panel">
+            <div class="bottom-list-panel-left">
+                    Страница: {{CurrentPage}} из {{TotalPages}}<br>
+                    <span class="grey-text small-text">({{TotalRes}} результатов) </span>
+                </div>
+         <div class="bottom-list-panel-center">
+             <button  mat-raised-button [disabled] = "isFirstPage || isLoading" (click) = "goFirstPage()">Первая</button>
+         
+         
+             <button color="warn" mat-raised-button [disabled] = "isLastPage || isLoading" (click) = "showMore()" class="show-more">Показать еще</button>
+        
+         
+             <button  mat-raised-button [disabled] = "isLastPage || isLoading" (click) = "goLastPage()">Последняя</button>
+         </div>
+         <div class="bottom-list-panel-right"></div>
+     </div>
+ 
+     
+     <ng-template #noFilmsBlock>
+         Нет фильмов для отображения
+     </ng-template>
+ 
+ 
+ </div>
+  
+    
+   
+   
+   
+ 
+ 
+ 

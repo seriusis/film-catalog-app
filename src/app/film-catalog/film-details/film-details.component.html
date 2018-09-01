@@ -1,0 +1,117 @@
+<div [ngClass]="{'loading': isLoading}" class="container single-top">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div *ngIf="!isLoading" class="single-film flex flex-wrap flex-row">
+    <div class="left col">
+        <span class="film-label status">{{film.details.status}}</span>
+        <span class="film-label release">{{film.details.date}}</span>
+        <img *ngIf ="film.details.poster; else noImage" src="{{imgPath+film.details.poster}}"  alt = "{{film.details.title}}" title = "{{film.details.title}}">
+      </div>
+    <div class="right col flex flex-wrap flex-column">
+        <h1>{{film.details.title}}</h1>
+          <span class="original-title">{{film.details.originalTitle}}</span>
+          <div class="overview">{{film.details.overview}}</div>
+          
+          <div class="info-table flex flex-row">
+            <ul class="genres" *ngIf="film.details.genres">
+                <h4><i class="material-icons">local_movies</i> Жанры:</h4>
+                <ng-container *ngFor="let genre of film.details.genres">
+                  <li><i class="material-icons list-item">donut_large</i>{{genre.name}}</li>
+                </ng-container>
+            </ul>
+            <ul *ngIf="film.details.languages">
+              <h4><i class="material-icons">language</i>Языки</h4>
+                <ng-container *ngFor="let lang of film.details.languages">
+                  <li><i class="material-icons list-item">donut_large</i>{{lang.name}}</li>
+                </ng-container>
+            </ul>
+        </div>
+
+      <ul>
+        <li class="tagline">Слоган: <span>{{film.details.tagline}}</span></li>
+        <li class="budget">Бюджет: <span>{{film.details.budget}} $</span></li>
+      </ul>
+      <hr>
+
+
+      <div class="labels flex flex-row space-between align-center">
+          <div class="label poularity">
+              <i class="material-icons">trending_up</i>{{film.details.popularity}}
+          </div>
+    
+            <div class="label runtime">
+              <i class="material-icons">timer</i>{{film.details.runtime}} мин
+            </div>
+    
+            <div class="label release">
+              <i class="material-icons">timeline</i>{{film.details.date}}
+            </div>
+    
+            <div class="label average">
+              <i class="material-icons" [ngClass] = "ratingColor(film.details.rating)">thumbs_up_down</i>{{film.details.rating}}
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="container single-bottom">
+<section *ngIf="film.gallery">
+  <h3>Кадры из фильма:</h3>
+  <div class="carousel"
+  ng2-carouselamos
+  [width] = "1200"
+  [items]="film.gallery"
+  [$item]="imageTemplate"
+  [$prev]="prevTemplate"
+  [$next]="nextTemplate">
+</div>
+</section>
+
+<section *ngIf="film.cast">
+  <h3>Актерский состав:</h3>
+  <div class="carousel"
+    ng2-carouselamos
+    [width] = "1200"
+    [items]="film.cast"
+    [$item]="actorTemplate"
+    [$prev]="prevTemplate"
+    [$next]="nextTemplate">
+  </div>
+</section>
+
+
+<ng-template let-item let-i="index" #imageTemplate>
+  <div *ngIf="film.gallery[i].image" class="gallery-item">
+      <img  src="{{imgPath+film.gallery[i].image}}"  alt = "{{film.details.title}}" title = "{{film.details.title}}">
+  </div>
+</ng-template>
+
+<ng-template let-actor let-i="index" #actorTemplate>
+  <div *ngIf="film.cast[i].photo" class="actor-item">
+      <h4><a [routerLink] = "['/actors/details', film.cast[i].id]">{{film.cast[i].name}}</a></h4>
+      <small class="character">Роль: {{film.cast[i].character}} </small>
+        <img  src="{{imgPath+film.cast[i].photo}}"  alt = "{{film.cast[i].name}}" title = "{{film.cast[i].name}}">
+  </div> 
+</ng-template>
+
+<ng-template #prevTemplate>
+  <i class="material-icons nav">navigate_before</i>
+</ng-template>
+
+<ng-template #nextTemplate>
+<i class="material-icons nav">navigate_next</i>
+</ng-template>
+
+
+
+<ng-template #noImage>
+  <i class="material-icons noImage"> image</i>
+</ng-template>
+
+
+
+</div>
+
+
+
+

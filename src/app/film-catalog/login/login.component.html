@@ -1,0 +1,42 @@
+<div class="container">
+  <p>
+    Войдите в свой личный кабинет или зарегистрируйтесь
+  </p>
+
+  <div class="form-container">
+    <form class="login" (ngSubmit)="login()">
+      <section class="title">
+        <h3 class="welcome">Приветствуем Вас</h3>
+        <h5 class="hint">Для просмотра Вам необходимо авторизоваться</h5>
+      </section>
+      <div class="login-group">
+        <mat-form-field>
+          <input matInput
+            class="username"
+            type="text"
+            id="login_username"
+            placeholder="Логин"
+            name="name"
+            [(ngModel)] = "formData.login"
+            >
+        </mat-form-field>  
+         <mat-form-field>
+          <input matInput
+            class="password"
+            type="password"
+            id="login_password"
+            placeholder="Пароль"
+            name="password"
+            [(ngModel)] = "formData.pass"
+            >
+        </mat-form-field>
+
+        <br>
+        <button color="warn" mat-raised-button type="submit" class="btn btn-primary">Войти</button>
+      </div>
+    </form>
+  </div>
+
+  
+</div>
+

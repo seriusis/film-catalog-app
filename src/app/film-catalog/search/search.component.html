@@ -1,0 +1,20 @@
+<mat-toolbar class="menu-toolbar">
+  <mat-toolbar-row>
+    <!--<span>В избранное добавлено: {{favorites}} элементов</span>-->
+    <span class="example-spacer"></span>
+    <div>
+      <mat-form-field>
+        <mat-label>{{labelText}}</mat-label>
+        <input (input)="searchHandler($event.target.value)" matInput placeholder="от 3 символов" [(ngModel)] = "searchQuery">
+        <mat-hint *ngIf="!isValid">введите больше 2 символов</mat-hint>
+        <i *ngIf="isActive" class="material-icons" (click) = "clearResults()">
+          close
+          </i>
+      </mat-form-field>
+    </div>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+
