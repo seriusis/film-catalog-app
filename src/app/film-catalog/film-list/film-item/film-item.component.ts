@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { Film } from '../../../shared/models/i-film';
+import { RouterModule, Routes } from '@angular/router';
+import { CommonService } from '../../../shared/services/common.service';
 @Component({
   selector: 'film-item',
   templateUrl: './film-item.component.html',
@@ -7,29 +9,27 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class FilmItemComponent implements OnInit {
   @Output() update = new EventEmitter<string>();
-  @Input() film: object;
+  @Output() updateBookmark = new EventEmitter<string>();
+  @Input() film: Film;
   @Input() imgPath: string;
-  ratingColor;
-  constructor() { }
+  constructor(private service : CommonService) { }
   ngOnInit() {
-    this.setRatingColor();
   }
 
-  setRatingColor(){
-    let average = this.film['vote_average'];
-    if(average >= 7){
-      this.ratingColor = 'green';
-    } else if((average < 8) && (average > 6)){
-      this.ratingColor = 'orange';
-    } else {
-      this.ratingColor = 'grey';
-    }
-  }
+  ratingColor = (average) => this.service.ratingColor(average);
+  
 
   cutDescription = (text) => text.length < 190 ? text : text.substr(0, 190)+'...'
 
- /* favoriteHandler(index){
+  favoriteHandler(){
     this.update.emit();
-  }*/
+  }
+
+  bookmarkHandler(){
+    this.updateBookmark.emit();
+  }
+
+
+
 
 }

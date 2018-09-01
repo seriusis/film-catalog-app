@@ -1,51 +1,36 @@
  
    <div class="container">
-   <mat-toolbar class="menu-toolbar">
-        <mat-toolbar-row>
-          <!--<span>В избранное добавлено: {{favorites}} элементов</span>-->
-          <span class="example-spacer"></span> 
-          <div>  
-              <search [activeView] = "activeView" (ev) = "searchItems($event)"></search>
-          </div> 
-          <span class="example-spacer"></span>
-            <div>
-                <mat-form-field>
-                  <mat-select placeholder="Отобразить" [(ngModel)] = "activeView" (selectionChange) = "changeView()">
-                    <mat-option value="films">Фильмы</mat-option>
-                    <mat-option value="persons">Актеры</mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-        </mat-toolbar-row>
-    </mat-toolbar>
+
+    <!-- <router-outlet></router-outlet> -->
+
+    <search [labelText] = "searchText" (searchEvent) = "getFilms()" (clearEvent) = "clearRes()"></search>
 
     <mat-spinner *ngIf="isLoading"></mat-spinner>
 
     <div *ngIf = "items.length else noItems" class="film-grid" [ngClass]="{'loading': isLoading}">
 
         <ng-container *ngFor="let item of items; index as itemIndex; trackBy : trackByFn" class="film-item">
-            <film-item *ngIf="activeView == 'films'" [film] = "item" [imgPath] = "imgPath" ></film-item>
-            <person-item *ngIf="activeView == 'persons'" [person] = "item" [imgPath] = "imgPath" ></person-item>
+            <film-item [film] = "item" [imgPath] = "imgPath" (update) = "onUpdateFavorite(item.id)" (updateBookmark) = "onUpdateBookmark(item.id)"></film-item>
         </ng-container>
     
     </div>
            
-   <ng-template #noItems>
-        Нет результатов для показа
+   <ng-template  #noItems>
+        Нет фильмов для показа
    </ng-template>
     <div *ngIf="items.length" class="align-center bottom-list-panel">
         <div class="bottom-list-panel-left">
-            Страница: {{pageInfo.currentPage}} из {{pageInfo.totalPages}}<br>
-            <span class="grey-text small-text">({{pageInfo.totalResults}} результатов) </span>
+            Страница: {{CurrentPage}} из {{TotalPages}}<br>
+            <span class="grey-text small-text">({{TotalRes}} результатов) </span>
         </div>
         <div class="bottom-list-panel-center">
-            <button  mat-raised-button (click) = "goFirstPage()">Первая</button>
+            <button  mat-raised-button [disabled] = "isFirstPage || isLoading" (click) = "goFirstPage()">Первая</button>
         
         
-            <button color="warn" mat-raised-button [disabled] = "isLastPage()" (click) = "showMore()" class="show-more">Показать еще</button>
+            <button color="warn" mat-raised-button [disabled] = "isLastPage || isLoading" (click) = "showMore()" class="show-more">Показать еще</button>
        
         
-            <button  mat-raised-button (click) = "goLastPage()">Последняя</button>
+            <button  mat-raised-button [disabled] = "isLastPage || isLoading" (click) = "goLastPage()">Последняя</button>
         </div>
         <div class="bottom-list-panel-right"></div>
     </div>

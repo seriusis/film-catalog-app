@@ -1,13 +1,17 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>Film Catalog HW#4</span>
+      <span>Film Catalog HW#10</span>
       <span class="example-spacer"></span>
-      <a mat-button 
-        *ngFor="let link of links" 
-        [routerLink]="link.path" 
-        [routerLinkActive]="link.active"> 
-        <mat-icon class="example-icon">{{link.icon}}</mat-icon>{{link.label}}
-    </a>
+      <ng-container *ngIf="isLoggedIn">
+          <a mat-button 
+          *ngFor="let link of links" 
+          [routerLink]="link.path" 
+          [routerLinkActive]="link.active"> 
+          <mat-icon class="example-icon">{{link.icon}}</mat-icon>{{link.label}}
+      </a>
+      <a mat-button (click) = "logout()"><i class="material-icons">exit_to_app</i> Выйти</a>
+      </ng-container>
+      <a mat-button *ngIf="!isLoggedIn"><i class="material-icons">fast_forward</i> Войти</a>
     </mat-toolbar-row>
   </mat-toolbar> 
 

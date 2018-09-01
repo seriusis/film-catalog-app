@@ -33,28 +33,13 @@ mat-card-header mat-card-title{
   top:0;
   right: 0;
 }
-.label .material-icons{
-  vertical-align: middle;
-  margin-right:5px;
-  color: rgb(244, 205, 54)
-}
+
 .label{
-  color: #fff;
-  background: #254653;
-  box-sizing: border-box;
-  padding: 3px 9px;
-  font-size: 14px;
   margin: 0 -24px 16px -24px;
+  background: #254653;
+  color: #fff;
 }
-.label .material-icons.grey{
-  color:#a7bcc5;
-}
-.label .material-icons.orange{
-  color: rgb(244, 205, 54);
-}
-.label .material-icons.green{
-  color:rgb(8, 235, 39);
-}
+
 
 .noImage{
   font-size: 150px;
