@@ -1,6 +1,16 @@
-import { Component, OnInit, ViewEncapsulation, Input, ViewChild } from '@angular/core';
-import { FilmService } from '../film.service';
-import { SearchComponent } from './search/search.component';
+import { Component, OnInit, ViewEncapsulation, Input, ViewChild, Inject } from '@angular/core';
+import { FilmService } from '../../shared/services/film.service';
+import { FavoriteApiService } from '../../shared/services/favorite.api.service';
+import { BookmarkApiService } from '../../shared/services/bookmark.api.service';
+import { Film } from '../../shared/models/i-film';
+import { FilmsResults } from '../../shared/models/i-films-results';
+import { SearchResults } from '../../shared/models/i-search-results';
+import { PersonsResults } from '../../shared/models/i-persons-results';
+import { Bookmark } from '../../shared/models/i-bookmark';
+import { Favorite } from '../../shared/models/i-favorite';
+import {API_CONFIG} from '../../shared/configs/config';
+import {Config} from '../../shared/models/i-config';
+import {SearchComponent} from '../search/search.component'
 
 
 @Component({
@@ -9,22 +19,28 @@ import { SearchComponent } from './search/search.component';
   styleUrls: ['./film-list.component.css']
 })
 export class FilmListComponent implements OnInit {
-  @ViewChild(SearchComponent) searchComp: SearchComponent;
-  items = [];
-  imgPath = this.filmsService.midImgPath;
-  activeView = 'films';
+  items: Array<Film> = [];
+  favoriteList:Array<Favorite> = [];
+  imgPath:string = this.filmService.apiConfig.midImgPath;
   pageInfo = {
     currentPage : 1,
     totalPages : null,
     totalResults : null,
     lastPage : null
   }
-  searchQuery:string;
-  searchStatus:boolean = false;
+  @ViewChild(SearchComponent) search:SearchComponent; //смотрим строку поиска
   isLoading:boolean = true;
+  searchText = 'Поиск фильма';
+  
 
   
-  constructor(private filmsService: FilmService) {}
+  constructor(
+    private filmService: FilmService, 
+    private favoriteService: FavoriteApiService, 
+    private bookmarkService : BookmarkApiService,
+    @Inject(API_CONFIG) public config: Config
+  ){}
+
   ngOnInit() {
     this.getFilms();
   }
@@ -33,121 +49,110 @@ export class FilmListComponent implements OnInit {
     this.items = items;
     this.pageInfo.currentPage = curPage;
     this.pageInfo.totalPages =  totalPages;
-    this.pageInfo.totalResults = totalRes
+    this.pageInfo.totalResults = totalRes;
     this.isLoading = false;
   }
 
-  getFilms(page?){
-    this.filmsService.getPopularFilms(page ? page : this.pageInfo.currentPage).subscribe(
-      (films: any) => {
+  getFilms(page = this.pageInfo.currentPage){
+    this.filmService.getFilms(page, this.search.searchQuery).subscribe(
+      (films: FilmsResults) => {
         this.saveData(films.results, films.page,  films.total_pages, films.total_results);
+        // this.buildFavorites();
+        // this.buildBookmarks();
       },
       err => { console.log("films request error");
       })  
   }
-
-  getPersons(page?){
-    this.filmsService.getPopularPerson(page ? page : this.pageInfo.currentPage).subscribe(
-      (person: any) => {
-          this.saveData(person.results, person.page,  person.total_pages, person.total_results);//посм. деструкт
-      },
-      err => {
-        console.log("person request error");
-      }
-    )
-  }
-
-  searchMovie(query, page?){//типы
-    this.filmsService.searchMovie(query, page ? page : this.pageInfo.currentPage).subscribe(
-      (results: any) => {
-          this.saveData(results.results, results.page,  results.total_pages, results.total_results);
-      },
-      err => {
-        console.log("person request error");
-      }
-    )
-  }
-
-  searchPerson(query, page?){
-    this.filmsService.searchPerson(query, page ? page : this.pageInfo.currentPage).subscribe(
-      (results: any) => {
-          this.saveData(results.results, results.page,  results.total_pages, results.total_results);
-      },
-      err => {
-        console.log("search request error");
-      }
-    )
-  }
-
-  updatePageAndViewConfig(){
-    this.pageInfo.currentPage = 1;
-    this.searchComp.searchQuery = '';//нормально ?
-    this.searchStatus = false;
-  }
-
-  changeView(){
-    this.updatePageAndViewConfig();
-    if(this.activeView == 'films'){
-      this.isLoading = true;
-      this.items = [];
-      this.getFilms();
-    } else {
-      this.isLoading = true;
-      this.items = [];
-      this.getPersons();
-    }
-  }
-
-  searchItems(value){
-    if(value.length > 2){//вал if <2
-      this.isLoading = true;
-      this.searchStatus = true;
-      this.activeView == 'films' && this.searchMovie(value);
-      this.activeView == 'persons' && this.searchPerson(value);
-    } else {
-      this.isLoading = true;
-      this.searchStatus = false;
-      this.activeView == 'films' && this.getFilms(1);
-      this.activeView == 'persons' && this.getPersons(1);
-    }
-  }
-
-  isLastPage = () => this.pageInfo.currentPage == this.pageInfo.totalPages;
-    
+      
   goLastPage(){
     this.isLoading = true;
     this.pageInfo.currentPage = this.pageInfo.totalPages;
-    if(this.searchStatus){
-      this.searchItems(this.searchQuery)
-    } else {
-      this.activeView == 'films' && this.getFilms(this.pageInfo.lastPage);
-      this.activeView == 'persons' && this.getPersons(this.pageInfo.lastPage);
-    }
+    this.getFilms()
   }
 
   goFirstPage(){
     this.isLoading = true;
-    this.pageInfo.currentPage = 1;
-    if(this.searchStatus){
-      this.searchItems(this.searchQuery);
-    } else {
-      this.activeView == 'films' && this.getFilms(1);
-      this.activeView == 'persons' && this.getPersons(1);
-    }
+    this.getFilms(1)
   }
 
   showMore(){
     this.isLoading = true;
-    this.pageInfo.currentPage++;
-    if(this.searchStatus){
-      this.searchItems(this.searchQuery);
-    } else {
-      this.activeView == 'films' && this.getFilms();
-      this.activeView == 'persons' && this.getPersons();
-    }
+    this.pageInfo.currentPage++; 
+    this.getFilms();
+  }
+
+  clearRes(){
+    this.getFilms(1);
   }
 
   trackByFn = (index, item) => item.id;
+
+  get CurrentPage(){
+    return this.pageInfo.currentPage;
+  }
+  get TotalPages(){
+    return this.pageInfo.totalPages;
+  }
+  get TotalRes(){
+    return this.pageInfo.totalResults;
+  }
+
+  get isLastPage(){
+    return this.pageInfo.currentPage == this.pageInfo.totalPages
+  }
+  get isFirstPage(){
+    return this.pageInfo.currentPage == 1;
+  }
+
+
+
+
+  buildFavorites(){
+    this.favoriteService.getFavorite(this.items.map(item => item.id)).subscribe(
+      (favorites: Array<Favorite>) => {
+        let favoriteList = favorites.map(favorite => favorite._id);
+        this.items.forEach(film => {
+          film.isFavorite = favoriteList.indexOf(film.id) > -1;
+        })
+      },
+      err => {
+        console.log("favorites request error");
+      }
+    )
+  }
+
+  buildBookmarks(){
+    this.bookmarkService.getBookmark(this.items.map(item => item.id)).subscribe(
+      (bookmarks: Array<Bookmark>) => {
+        let bookmarkList = bookmarks.map(bookmark => bookmark._id);
+        this.items.forEach(film => {
+          film.isBookmark = bookmarkList.indexOf(film.id) > -1;
+        })
+      },
+      err => {
+        console.log("favorites request error");
+      }
+    )
+  }
+
+  onUpdateFavorite(id:number){
+    let currentFilm = this.items.find(film => film.id == id);
+    if(currentFilm.isFavorite){
+      this.favoriteService.removeFromFavorite(id).subscribe(() => this.buildFavorites());
+    } else {
+      this.favoriteService.addToFavorite(id).subscribe(() => this.buildFavorites());
+    }
+  }
+
+  onUpdateBookmark(id:number){
+    let currentFilm = this.items.find(film => film.id == id);
+    if(currentFilm.isBookmark){
+      this.bookmarkService.removeFromBookmark(id).subscribe(() => this.buildBookmarks());
+    } else {
+      this.bookmarkService.addToBookmark(id).subscribe(() => this.buildBookmarks());
+    }
+  }
+
 
 }
         

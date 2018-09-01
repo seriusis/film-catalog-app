@@ -10,3 +10,51 @@
 .mat-tab-body-content:host{
     color:red
 }
+
+.film-grid, .actor-grid{
+    display:flex;
+    justify-content: left;
+    flex-direction: row;
+    align-items: stretch; 
+    flex-wrap: wrap;
+  }
+  
+  film-item{
+    width:25%;
+    margin: 1em 0;
+  }
+  
+  person-item{
+    width:25%;
+    margin: 1em 0;
+  }
+mat-divider{
+  margin:30px 0;
+  border-top-color: rgb(0, 0, 0);
+}
+.main-grid-box mat-toolbar{
+  margin-bottom: -30px;
+  margin-top: 30px; 
+  padding: 0 8px;
+}
+
+  @media(max-width:768px){
+    film-item{
+      width:33.33%;
+    }
+    person-item{
+      width:33.33%
+    }
+  }
+   
+  @media(max-width:480px){
+    film-item{
+      width:50%;
+    }
+    person-item{
+      width:50%;
+    }
+  }
+
+
+  

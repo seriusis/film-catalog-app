@@ -1,24 +1,36 @@
-<div class="wrapper">
+<div class="container">
 
     <h2>Вас приветствует приложение о фильмах</h2><br> 
-    
-    <mat-tab-group>
-            <mat-tab label="Информация о портале">
-                <p>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. </p>
-                <p>
-                    Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации "Здесь ваш текст.. Здесь ваш текст.. Здесь ваш текст.." 
-                </p>
-                <p>
-                    Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам "lorem ipsum" сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. 
-                </p>
-                Некоторые версии появились по ошибке, некоторые - намеренно (например, юмористические варианты).
-            </mat-tab>
-            <mat-tab label="Дополнительная информация">
-                <p>Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации "Здесь ваш текст.. </p>
-                
-                <p>Здесь ваш текст.. Здесь ваш текст.." Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам "lorem ipsum" сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно (например, юмористические варианты).</p>
-            </mat-tab>
-    </mat-tab-group>
+
+
+    <div class="main-grid-box">
+        <mat-toolbar>Сейчас в кино</mat-toolbar>
+        <div class="top-rated-grid film-grid">
+            <ng-container *ngFor = "let film of nowPlaying">
+                <film-item  [film] = "film" [imgPath] = "imgPath" class="film-item"></film-item>
+            </ng-container>
+            <a mat-button href ="/films">Все фильмы</a>
+        </div> 
+
+        <mat-toolbar>Популярные фильмы</mat-toolbar>
+        <div class="top-rated-grid film-grid">
+            <ng-container *ngFor = "let film of popularFilms">
+                <film-item  [film] = "film" [imgPath] = "imgPath" class="film-item"></film-item>
+            </ng-container>
+            <a mat-button href ="/films">Все фильмы</a>
+        </div>
+
+        <mat-toolbar>Популярные актеры</mat-toolbar>
+        <div class="top-rated-grid actor-grid">
+            <ng-container *ngFor = "let actor of popularActors">
+                <person-item  [person] = "actor" [imgPath] = "imgPath" class="person-item"></person-item>
+            </ng-container>
+            <a mat-button href ="/actors">Все актеры</a>
+        </div>
+    </div>
 </div>
+
+
+
 
 

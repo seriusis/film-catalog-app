@@ -49,10 +49,7 @@ film-item{
   width:33.33%;
   margin: 1em 0;
 }
-person-item{
-  width:25%;
-  margin: 1em 0;
-}
+
 .grey-text{
   color:rgb(102, 102, 102)
 }
@@ -60,15 +57,7 @@ person-item{
   font-size:14px;
 }
 
-mat-spinner{
-  position:fixed;
-  top:50%;
-  left:50%;
-  z-index: 999;
-}
-.loading{
-  opacity: 0.5;
-}
+
 
 @media(max-width:768px){
   film-item{

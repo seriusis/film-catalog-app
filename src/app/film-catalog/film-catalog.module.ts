@@ -15,10 +15,18 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDividerModule} from '@angular/material/divider';
-import { PersonItemComponent } from './film-list/person-item/person-item.component';
-import { SearchComponent } from './film-list/search/search.component';
+import { PersonItemComponent } from './actor-list/person-item/person-item.component';
+import { SearchComponent } from './search/search.component';
+import { ActorListComponent } from './actor-list/actor-list.component';
+import { LoginComponent } from './login/login.component';
+import { FilmDetailsComponent } from './film-details/film-details.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+import { ActorDetailsComponent } from './actor-details/actor-details.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
+ 
 
 @NgModule({
   imports: [
@@ -34,12 +42,15 @@ import { SearchComponent } from './film-list/search/search.component';
     MatIconModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatDividerModule
+    MatDividerModule,
+    AppRoutingModule,
+    Ng2CarouselamosModule
+
+
   ],
   declarations: [
     MainComponent, 
     FilmListComponent, 
-    FilmItemComponent, PersonItemComponent, SearchComponent
-  ]
+    FilmItemComponent, PersonItemComponent, SearchComponent, ActorListComponent, LoginComponent, FilmDetailsComponent, ActorDetailsComponent, NotFoundComponent  ]
 })
 export class FilmCatalogModule { }

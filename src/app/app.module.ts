@@ -9,8 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-
-
+import {API_CONFIG, apiConfig} from './shared/configs/config';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule,
 
   ],
-  providers: [],
+  providers: [{provide: API_CONFIG, useValue: apiConfig}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
