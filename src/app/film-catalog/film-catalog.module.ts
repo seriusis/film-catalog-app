@@ -24,7 +24,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { ActorDetailsComponent } from './actor-details/actor-details.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
  
 
@@ -44,7 +44,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatProgressSpinnerModule,
     MatDividerModule,
     AppRoutingModule,
-    Ng2CarouselamosModule
+    Ng2CarouselamosModule,
+    ReactiveFormsModule
+
 
 
   ],

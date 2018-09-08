@@ -40,6 +40,7 @@ mat-spinner{
 
 mat-toolbar[_ngcontent-c4] .mat-form-field-infix{width:200px}
 .container{
+    width: 90%;
     max-width: 1200px;
     margin:0 auto;
 }

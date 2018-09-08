@@ -3,22 +3,25 @@
     Войдите в свой личный кабинет или зарегистрируйтесь
   </p>
 
-  <div class="form-container">
-    <form class="login" (ngSubmit)="login()">
+  <div class="">
+    <form class="login" (ngSubmit)="login()" [formGroup] = "loginForm">
       <section class="title">
         <h3 class="welcome">Приветствуем Вас</h3>
         <h5 class="hint">Для просмотра Вам необходимо авторизоваться</h5>
       </section>
-      <div class="login-group">
+      <div class="login-group form-container">
         <mat-form-field>
           <input matInput
             class="username"
             type="text"
             id="login_username"
             placeholder="Логин"
-            name="name"
-            [(ngModel)] = "formData.login"
+            formControlName = "name"
             >
+            
+            <mat-error *ngFor="let error of validErrors.name">
+              {{error}}
+            </mat-error>
         </mat-form-field>  
          <mat-form-field>
           <input matInput
@@ -26,9 +29,11 @@
             type="password"
             id="login_password"
             placeholder="Пароль"
-            name="password"
-            [(ngModel)] = "formData.pass"
+            formControlName = "password"
             >
+            <mat-error *ngFor="let error of validErrors.password">
+              {{error}}
+            </mat-error>
         </mat-form-field>
 
         <br>
