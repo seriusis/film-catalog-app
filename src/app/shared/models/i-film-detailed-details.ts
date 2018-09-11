@@ -2,11 +2,11 @@ export class FilmDetailedDetails {
     id:number;
     budget:number;
     genres:Array<object>;
-    original_title:string;
+    originalTitle:string;
     overview:string;
     popularity:number;
-    poster_path:string;
-    release_date:string;
+    poster:string;
+    date:string;
     runtime:number;
     languages:Array<object>;
     status:string;

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {API_CONFIG} from '../../shared/configs/config';
 import {Config} from '../../shared/models/i-config';
 import { CommonService } from '../services/common.service';
+import { Observable } from 'rxjs';
+import { ActorDetailed } from '../../shared/models/i-actor-detailed';
 
 @Injectable({
   providedIn: 'root'
@@ -16,29 +18,29 @@ export class ActorService {
   ) {}
 
 
-  getPopularPerson(page:number = 1){
+  getPopularPerson(page:number = 1):Observable<any>{
     return this.http.get(`${this.apiConfig.personUrl}/popular?page=${page}${this.apiConfig.params}`)
   } 
 
-  searchPerson(page:number = 1, query){
+  searchPerson(page:number = 1, query):Observable<any>{
     return this.http.get(`${this.apiConfig.searchUrl}/person?page=${page}${this.apiConfig.params}&query=${query}`)
   }
 
   
-  getPersons(page, query:string = ''){
+  getPersons(page, query:string = ''):Observable<any>{
    return query ? this.searchPerson(page, query) : this.getPopularPerson(page);
   }
   
 
-  getDetails(id:number){
+  getDetails(id:number):Observable<any>{
     return this.http.get(`${this.apiConfig.personUrl}/${id}?${this.apiConfig.params}`);
   }
 
-  getActorCasts(id:number){
+  getActorCasts(id:number):Observable<any>{
     return this.http.get(`${this.apiConfig.personUrl}/${id}/movie_credits?api_key=${this.apiConfig.apiKey}`);
   }
 
-  prepareData(array){
+  prepareData(array):ActorDetailed{
     let actorData = array.map((item, index) => {
       switch (index){
         case 0 : return this.prepareActorDetails(item);

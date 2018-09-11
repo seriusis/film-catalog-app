@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {API_CONFIG} from '../../shared/configs/config';
 import {Config} from '../../shared/models/i-config';
 import { mergeMap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import { FilmDetailed } from '../../shared/models/i-film-detailed';
 import { isNgTemplate } from '@angular/compiler';
@@ -22,47 +22,46 @@ export class FilmService {
   ) {}
 
   /*films in homepage*/
-  getPopularFilms (page:number = 1) {
+  getPopularFilms (page:number = 1):Observable<any>{
     return this.http.get(`${this.apiConfig.movieUrl}/popular?page=${page}${this.apiConfig.params}`)
   }
 
 
-  searchMovie(page:number = 1, query){
+  searchMovie(page:number = 1, query):Observable<any>{
     return this.http.get(`${this.apiConfig.searchUrl}/movie?page=${page}${this.apiConfig.params}&query=${query}`)
   }
 
-  getNowPlaying(page:number = 1){
+  getNowPlaying(page:number = 1):Observable<any>{
     return this.http.get(`${this.apiConfig.nowPlaying}?page=${page}${this.apiConfig.params}`)
   }
 
 
 
   /*list of films*/
-  getFilms(page, query:string = ''){
+  getFilms(page, query:string = ''):Observable<any>{
     return query ? this.searchMovie(page, query) : this.getPopularFilms(page);
   }
 
   /*single film*/
-  getDetails(id:number){
+  getDetails(id:number):Observable<any>{
     return this.http.get(`${this.apiConfig.movieUrl}/${id}?${this.apiConfig.params}`);
   }
 
-  getFilmImages(id:number){
+  getFilmImages(id:number):Observable<any>{
     return this.http.get(`${this.apiConfig.movieUrl}/${id}/images?api_key=${this.apiConfig.apiKey}`);
   }
 
-  getFilmActors(id:number){
+  getFilmActors(id:number):Observable<any>{
     return this.http.get(`${this.apiConfig.movieUrl}/${id}/credits?api_key=${this.apiConfig.apiKey}`);
   }
 
-  prepareData(array){
+  prepareData(array):FilmDetailed{
     var filmData = array.map((item, index) => {
       switch (index){
         case 0 : return this.prepareFilmDetails(item);
         case 1 : return item.backdrops
         case 2 : return item.cast;
-      };  
-
+      }; 
     }); 
 
    return {
@@ -91,7 +90,7 @@ export class FilmService {
     }
   }
 
-  prepareFilmGallery = array =>  array.map((item)=> ({image : item.file_path}));
+  prepareFilmGallery = (array) =>  array.map((item)=> ({image : item.file_path}));
   
   prepareFilmCast = array => {
      return array.map(actor=> {
