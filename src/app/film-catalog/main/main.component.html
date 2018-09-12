@@ -9,7 +9,7 @@
             <ng-container *ngFor = "let film of nowPlaying">
                 <film-item  [film] = "film" [imgPath] = "imgPath" class="film-item"></film-item>
             </ng-container>
-            <a mat-button href ="/films">Все фильмы</a>
+            <a mat-button routerLink = '/films'>Все фильмы</a>
         </div> 
 
         <mat-toolbar>Популярные фильмы</mat-toolbar>
@@ -17,7 +17,7 @@
             <ng-container *ngFor = "let film of popularFilms">
                 <film-item  [film] = "film" [imgPath] = "imgPath" class="film-item"></film-item>
             </ng-container>
-            <a mat-button href ="/films">Все фильмы</a>
+            <a mat-button routerLink ="/films">Все фильмы</a>
         </div>
 
         <mat-toolbar>Популярные актеры</mat-toolbar>
@@ -25,11 +25,11 @@
             <ng-container *ngFor = "let actor of popularActors">
                 <person-item  [person] = "actor" [imgPath] = "imgPath" class="person-item"></person-item>
             </ng-container>
-            <a mat-button href ="/actors">Все актеры</a>
+            <a mat-button routerLink ="/actors">Все актеры</a>
         </div>
     </div>
 </div>
-
+ 
 
 
 
