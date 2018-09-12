@@ -8,6 +8,9 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import { FilmDetailed } from '../../shared/models/i-film-detailed';
 import { isNgTemplate } from '@angular/compiler';
 import { CommonService } from '../services/common.service';
+import { FilmDetailedDetails } from '../models/i-film-detailed-details';
+import { FilmDetailedCast } from '../models/i-film-detailed-cast';
+import { FilmDetailedGallery } from '../models/i-film-detailed-gallery';
 
 
 @Injectable({
@@ -55,7 +58,7 @@ export class FilmService {
     return this.http.get(`${this.apiConfig.movieUrl}/${id}/credits?api_key=${this.apiConfig.apiKey}`);
   }
 
-  prepareData(array):FilmDetailed{
+  prepareData(array):FilmDetailed{  
     var filmData = array.map((item, index) => {
       switch (index){
         case 0 : return this.prepareFilmDetails(item);
@@ -71,7 +74,7 @@ export class FilmService {
    };
   }
 
-  prepareFilmDetails(item){
+  prepareFilmDetails(item):FilmDetailedDetails{
     return {
       id : item.id,
       budget : item.budget.toLocaleString('ru'),
@@ -86,14 +89,14 @@ export class FilmService {
       status : item.status,
       tagline : item.tagline,
       title : item.title, 
-      rating : item.vote_average 
+      rating : item.vote_average
     }
   }
 
-  prepareFilmGallery = (array) =>  array.map((item)=> ({image : item.file_path}));
-  
-  prepareFilmCast = array => {
-     return array.map(actor=> {
+  prepareFilmGallery = (posters):Array<FilmDetailedGallery> =>  posters.map((item)=> ({image : item.file_path})); 
+
+  prepareFilmCast = (actors):Array<FilmDetailedCast> => {
+   return actors.map(actor=> {
       return {
         id : actor.id,
         name : actor.name,
