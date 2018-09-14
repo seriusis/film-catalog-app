@@ -1,7 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from '../../shared/services/login.service';
+import { CommonService } from '../../shared/services/common.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
 
@@ -22,7 +29,7 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.minLength(5),
       Validators.maxLength(25),
-      Validators.email
+     // Validators.email
     ]),
     password: new FormControl('', [
       Validators.required,
@@ -37,7 +44,7 @@ export class LoginComponent implements OnInit {
       'required' : 'Логин не может быть пустым',
       'minlength' : 'Логин должен быть от 5 символов',
       'maxlength' : 'Логин должен быть до 25 символов',
-      'email' : 'Неверный формат логина'
+      //'email' : 'Неверный формат логина'
     },
     'password' : {
       'required' : '',
@@ -82,7 +89,11 @@ export class LoginComponent implements OnInit {
   login(){
     if(this.loginForm.valid){
       this.loginService.login(this.loginForm.get('name').value, this.loginForm.get('password').value).subscribe(
-        () => this.goToMain(), err =>  console.log('user data error')
+        () => this.goToMain(),
+        err =>  {
+          console.log(err);
+          (err.status === 401) && this.snackBar.open('Неверный логин или пароль!', '', {duration:3500, horizontalPosition:'left'});
+        }
       );
     }
   }

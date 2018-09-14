@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
-import { FilmListComponent } from './film-list/film-list.component';
 import { FormsModule } from '@angular/forms';
-import { FilmItemComponent } from './film-list/film-item/film-item.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -15,16 +13,21 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDividerModule} from '@angular/material/divider';
+import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+import { FilmListComponent } from './film-list/film-list.component';
+import { FilmItemComponent } from './film-list/film-item/film-item.component';
 import { PersonItemComponent } from './actor-list/person-item/person-item.component';
 import { SearchComponent } from './search/search.component';
 import { ActorListComponent } from './actor-list/actor-list.component';
 import { LoginComponent } from './login/login.component';
 import { FilmDetailsComponent } from './film-details/film-details.component';
 import { AppRoutingModule } from '../app-routing.module';
-import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { ActorDetailsComponent } from './actor-details/actor-details.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ReactiveFormsModule } from '@angular/forms';
+
 
  
 
@@ -45,9 +48,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDividerModule,
     AppRoutingModule,
     Ng2CarouselamosModule,
-    ReactiveFormsModule
-
-
+    ReactiveFormsModule,
+    MatSnackBarModule
 
   ],
   declarations: [

@@ -1,5 +1,6 @@
 export class Config {
     apiUrl: string;
+    authUrl: string;
     apiKey: string;
     movieUrl: string;
     personUrl: string;
