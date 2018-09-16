@@ -57,8 +57,8 @@ export class FilmListComponent implements OnInit {
     this.filmService.getFilms(page, this.search.searchQuery).subscribe(
       (films: FilmsResults) => {
         this.saveData(films.results, films.page,  films.total_pages, films.total_results);
-        // this.buildFavorites();
-        // this.buildBookmarks();
+         this.buildFavorites();
+         this.buildBookmarks();
       },
       err => { console.log("films request error");
       })  
@@ -105,35 +105,23 @@ export class FilmListComponent implements OnInit {
   }
 
 
-
-
   buildFavorites(){
-    this.favoriteService.getFavorite(this.items.map(item => item.id)).subscribe(
-      (favorites: Array<Favorite>) => {
-        let favoriteList = favorites.map(favorite => favorite._id);
-        this.items.forEach(film => {
-          film.isFavorite = favoriteList.indexOf(film.id) > -1;
-        })
+    this.favoriteService.getFavoriteList().subscribe(
+      (favoritesIds: Array<number>) => {
+        this.items.forEach(film => film.isFavorite = favoritesIds.indexOf(film.id) > -1);
       },
-      err => {
-        console.log("favorites request error");
+      err => console.log("favorites request error")
+    );
+  }
+  
+  buildBookmarks(){
+    this.bookmarkService.getBookmarkList().subscribe(
+      (bookmarksIds: Array<number>) => {
+        this.items.forEach(film => film.isBookmark = bookmarksIds.indexOf(film.id) > -1);
       }
-    )
+    );
   }
 
-  buildBookmarks(){
-    this.bookmarkService.getBookmark(this.items.map(item => item.id)).subscribe(
-      (bookmarks: Array<Bookmark>) => {
-        let bookmarkList = bookmarks.map(bookmark => bookmark._id);
-        this.items.forEach(film => {
-          film.isBookmark = bookmarkList.indexOf(film.id) > -1;
-        })
-      },
-      err => {
-        console.log("favorites request error");
-      }
-    )
-  }
 
   onUpdateFavorite(id:number){
     let currentFilm = this.items.find(film => film.id == id);

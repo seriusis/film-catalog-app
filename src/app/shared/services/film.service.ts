@@ -26,16 +26,16 @@ export class FilmService {
 
   /*films in homepage*/
   getPopularFilms (page:number = 1):Observable<any>{
-    return this.http.get(`${this.apiConfig.movieUrl}/popular?page=${page}${this.apiConfig.params}`)
+    return this.http.get(`${this.apiConfig.movieUrl}/popular?page=${page}${this.apiConfig.params}`);
   }
 
 
   searchMovie(page:number = 1, query):Observable<any>{
-    return this.http.get(`${this.apiConfig.searchUrl}/movie?page=${page}${this.apiConfig.params}&query=${query}`)
+    return this.http.get(`${this.apiConfig.searchUrl}/movie?page=${page}${this.apiConfig.params}&query=${query}`);
   }
 
   getNowPlaying(page:number = 1):Observable<any>{
-    return this.http.get(`${this.apiConfig.nowPlaying}?page=${page}${this.apiConfig.params}`)
+    return this.http.get(`${this.apiConfig.nowPlaying}?page=${page}${this.apiConfig.params}`);
   }
 
 
@@ -104,6 +104,10 @@ export class FilmService {
         character: actor.character
       };
     });
+  }
+
+  getFavorite():Observable<any>{
+    return this.http.get(`${this.apiConfig.apiUrl}//account/8030726/favorite/movies`)
   }
 }
 

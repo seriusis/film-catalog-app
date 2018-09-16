@@ -1,5 +1,5 @@
 import {Injectable, Inject} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {retry, tap, pluck, map, mergeMap, catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
@@ -12,6 +12,7 @@ import {Config} from '../../shared/models/i-config';
 export class LoginService {
 
   private loggedIn = false;
+  //user:object;
 
   constructor(
     private http: HttpClient,
@@ -43,14 +44,42 @@ export class LoginService {
         localStorage.setItem('auth_token', session)
         this.loggedIn = true;
       }),
+
+      mergeMap((token:string) => { 
+        return this.http.get(`${this.apiConfig.apiUrl}/account?api_key=${this.apiConfig.apiKey}&session_id=${token}`)
+      }),
+      tap(user => {
+        localStorage.setItem('user_id', user['id']);
+        //this.user = user;
+      }),
+
       catchError((err) => err.status === 404 ? throwError('not found'): throwError(err))
     );
     
   }
 
+  deleteSession():Observable<any>{
+    let headers = new HttpHeaders({
+      //'Content-Type':  'application/json',
+      "session_id" : localStorage.getItem('auth_token'),
+      'api_key' : this.apiConfig.apiKey
+    })
+   
+    let params  = new HttpParams().set('api_key', this.apiConfig.apiKey);
+    return this.http.delete(`${this.apiConfig.authUrl}/session`, {headers:headers, params:params})
+  }
+
   logout() {
-    localStorage.removeItem('auth_token');
-    this.loggedIn = false;
-    this.router.navigate(['/login']);
+    this.deleteSession().subscribe(
+      req => {
+        localStorage.removeItem('auth_token');
+        this.loggedIn = false;
+        this.router.navigate(['/login']);
+      },
+      error => console.log('logout request error'))
+      
+    // localStorage.removeItem('auth_token');
+    // this.loggedIn = false;
+    // this.router.navigate(['/login']);
   }
 }

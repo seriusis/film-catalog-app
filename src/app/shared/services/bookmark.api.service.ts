@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core'; 
+import { Injectable, Inject } from '@angular/core'; 
 import { HttpClient } from '@angular/common/http';
+import {Config} from '../../shared/models/i-config';
+import {API_CONFIG} from '../configs/config';
+import {pluck, map, tap} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -7,19 +10,34 @@ import { HttpClient } from '@angular/common/http';
 
   export class BookmarkApiService {
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+                @Inject(API_CONFIG) public apiConfig: Config,    
+                ) {}
     
-    localApiUrl = 'http://localhost:3000/';
-    bookmarkApiUrl = this.localApiUrl+'films/bookmarks';
+    token = localStorage.getItem('auth_token');
+    user = localStorage.getItem('user_id');
 
-    getBookmark(ids:Array<number>){
-        return this.http.get(`${this.bookmarkApiUrl}?filmIds=${ids.join(',')}`);
+    getBookmarkList(){
+        return this.http.get(`${this.apiConfig.apiUrl}/account/${this.user}/watchlist/movies?api_key=${this.apiConfig.apiKey}&session_id=${this.token}`)
+        .pipe(
+            pluck('results'),
+            map((items:Array<object>) =>  items.map(item => item['id'])),
+        );
     }
+
     addToBookmark(id:number){
-        return this.http.post(this.bookmarkApiUrl, {id : id});
+        return this.http.post(`${this.apiConfig.apiUrl}/account/${this.user}/watchlist?api_key=${this.apiConfig.apiKey}&session_id=${this.token}`, {
+            "media_type": "movie",
+            "media_id": id,
+            "watchlist": true
+        });
     }
     removeFromBookmark(id:number){
-        return this.http.delete(`${this.localApiUrl}films/${id}/bookmarks`)
+        return this.http.post(`${this.apiConfig.apiUrl}/account/${this.user}/watchlist?api_key=${this.apiConfig.apiKey}&session_id=${this.token}`, {
+            "media_type": "movie",
+            "media_id": id,
+            "watchlist": false
+        });
     }
   }
 
